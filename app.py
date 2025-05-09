@@ -11,6 +11,8 @@ import cloudinary.uploader
 import base64
 import io
 from PIL import Image
+import cloudinary
+from cloudinary.uploader import upload
 
 app = Flask(__name__)
 CORS(app)
@@ -28,9 +30,9 @@ face_recognizer = dlib.face_recognition_model_v1("dlib_face_recognition_resnet_m
 
 # Configure Cloudinary
 cloudinary.config(
-    cloud_name=CLOUDINARY_CLOUD_NAME,
-    api_key=CLOUDINARY_API_KEY,
-    api_secret=CLOUDINARY_API_SECRET
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
 )
 
 # Database connection helper
@@ -67,6 +69,12 @@ def get_face_encoding(image):
         return None
 
 # API Endpoints
+@app.route('/upload', methods=['POST'])
+def upload_image():
+    file = request.files['image']
+    result = upload(file, folder="student_faces")
+    return jsonify({"url": result['secure_url']})
+
 
 @app.route('/api/register', methods=['POST'])
 def register_student():
