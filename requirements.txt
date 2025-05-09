@@ -4,3 +4,4 @@ gunicorn==21.2.0
 python-dotenv==1.0.0
 numpy==1.26.0  # Updated to work with Python 3.11+
 cloudinary==1.37.0
+opencv-python-headless==4.9.0.80  # Headless version (no GUI dependencies)
