@@ -35,7 +35,7 @@ cloudinary.config(
 
 # Database connection helper
 def get_db_connection():
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     return conn
 
 # Helper function to get face encodings
